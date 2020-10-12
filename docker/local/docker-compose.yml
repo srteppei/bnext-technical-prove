@@ -11,16 +11,22 @@ services:
       - ../../node_modules:/opt/bnext/contact-book-api/node_modules
     networks: 
       - bnext-contact-book-network-database
+    environment: 
+      DATABASE_HOST: bnext-contact-database 
+      DATABASE_PORT: $DATABASE_PORT
+      DATABASE_USER: $DATABASE_USER
+      DATABASE_PASSWORD: $DATABASE_PASSWORD
+      DATABASE_COLLECTION: $DATABASE_COLLECTION
   bnext-contact-database:
     container_name: bnext-contact-database 
     image: mariadb:10.5.3
     ports: 
-      - 3306:3306
+      - 3306:$DATABASE_PORT
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
-      MYSQL_DATABASE: contact-book
+      MYSQL_USER: $DATABASE_USER
+      MYSQL_PASSWORD: $DATABASE_PASSWORD
+      MYSQL_DATABASE: $DATABASE_COLLECTION
     networks:
       - bnext-contact-book-network-database
     
