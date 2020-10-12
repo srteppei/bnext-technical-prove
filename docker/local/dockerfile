@@ -1,0 +1,6 @@
+FROM node:12.18.3-alpine
+WORKDIR /opt/bnext/contact-book-api
+COPY . .
+RUN npm install
+RUN npm i -g @nestjs/cli@7.5.1
+CMD npm run start:debug

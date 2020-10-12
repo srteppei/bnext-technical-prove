@@ -1,0 +1,9 @@
+version: "3.7"
+
+services: 
+  bnext-contact-book-api:
+    build: 
+      dockerfile: docker/local/dockerfile
+    volumes: 
+      - ../../src:/opt/bnext/contact-book-api/src
+      - ../../node_modules:/opt/bnext/contact-book-api/node_modules
