@@ -16,7 +16,7 @@ export class UserService {
     if ( user === null || user === undefined) {
       return this.userRepository.save(userEntity);
     } else {
-      throw new HttpException('Nickname already used', HttpStatus.CONFLICT);
+      throw new HttpException('Nickname already exist', HttpStatus.CONFLICT);
     }
   }
 
