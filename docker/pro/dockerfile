@@ -1,0 +1,31 @@
+# BASE IMAGE
+FROM node:12.18.3-alpine AS base
+# SETING UP WORKDIR
+WORKDIR /opt/bnext/contact-book-api
+# COPY DIRECTORIES AND FILES
+COPY package-lock.json .
+COPY package.json .
+
+# GENERETE PROJECT BUILD
+FROM base AS builder
+# COPY DIRECTORIES AND FILES
+COPY src .
+COPY nest-cli.json .
+COPY tsconfig.json .
+COPY tsconfig.build.json .
+# GENERE BUILD
+RUN npm install
+RUN npm i -g @nestjs/cli@7.5.1 rimraf
+RUN npm run build
+
+# GENERATE PRODUCTION CONTAINER
+FROM base as production
+# SETING UP WORKDIR
+WORKDIR /opt/bnext/contact-book-api
+# SETING UP WORKDIR
+WORKDIR /opt/bnext/contact-book-api
+# COPY DIRECTORIES AND FILES
+COPY --from=builder /opt/bnext/contact-book-api/dist ./dist
+# LAUNCH PROJECT
+RUN npm install --production
+CMD npm run start:prod
