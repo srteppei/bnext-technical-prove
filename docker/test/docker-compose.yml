@@ -1,0 +1,8 @@
+version: "3.7"
+
+services: 
+  bnext-contact-book-api:
+    container_name:  bnext-contact-book-api-test
+    command: npm run test:e2e
+    volumes: 
+      - ../../test:/opt/bnext/contact-book-api/test
