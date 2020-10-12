@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { UserEntity } from 'src/package/user/user.entity';
 
 @Injectable()
 export class DatabaseConfigService {
@@ -35,7 +36,7 @@ export class DatabaseConfigService {
       username: this.databaseUser,
       password: this.databasePassword,
       database: this.databaseCollection,
-      entities: [],
+      entities: [UserEntity],
     };
     return config;
   }
