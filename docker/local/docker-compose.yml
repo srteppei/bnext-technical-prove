@@ -9,3 +9,21 @@ services:
     volumes: 
       - ../../src:/opt/bnext/contact-book-api/src
       - ../../node_modules:/opt/bnext/contact-book-api/node_modules
+    networks: 
+      - bnext-contact-book-network-database
+  bnext-contact-database:
+    container_name: bnext-contact-database 
+    image: mariadb:10.5.3
+    ports: 
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: contact-book
+    networks:
+      - bnext-contact-book-network-database
+    
+networks: 
+  bnext-contact-book-network-database: 
+    driver: bridge     
