@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
@@ -11,8 +11,17 @@ export class UserService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  createUser(userEntity: UserEntity) {
-    return this.userRepository.save(userEntity);
+  async createUser(userEntity: UserEntity) {
+    const user = await this.getUserByNickname(userEntity.nickname);
+    if ( user === null || user === undefined) {
+      return this.userRepository.save(userEntity);
+    } else {
+      throw new HttpException('Nickname already used', HttpStatus.CONFLICT);
+    }
+  }
+
+  getUserByNickname(nickname: string) {
+    return this.userRepository.findOne({ where: {nickname} });
   }
 
 }
