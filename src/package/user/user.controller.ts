@@ -1,5 +1,5 @@
 import { Body, ClassSerializerInterceptor, Controller, Post, UseInterceptors } from '@nestjs/common';
-import { UserEntity } from './user.entity';
+import { UserDto } from './user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -9,7 +9,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post()
-  createUser(@Body() userDto: UserEntity) {
+  createUser(@Body() userDto: UserDto) {
     return this.userService.createUser(userDto);
   }
 
