@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
@@ -14,18 +14,14 @@ export class UserService {
   ) {}
 
   async createUser(userDto: UserEntity) {
-    try {
-      const user = await this.getUserByNickname(userDto.nickname);
-      if ( user === null || user === undefined) {
-        const userEntity = new UserEntity();
-        userEntity.nickname = userDto.nickname;
-        userEntity.password = this.encryptionService.hash(userDto.password);
-        return this.userRepository.save(userEntity);
-      } else {
-        throw new HttpException('Nickname already exist', HttpStatus.CONFLICT);
-      }
-    } catch (error) {
-      Logger.error(error.message);
+    const user = await this.getUserByNickname(userDto.nickname);
+    if ( user === null || user === undefined) {
+      const userEntity = new UserEntity();
+      userEntity.nickname = userDto.nickname;
+      userEntity.password = this.encryptionService.hash(userDto.password);
+      return this.userRepository.save(userEntity);
+    } else {
+      throw new HttpException('Nickname already exist', HttpStatus.CONFLICT);
     }
   }
 
