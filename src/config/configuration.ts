@@ -9,5 +9,9 @@ export default () => ({
   },
   jwt: {
     secret: process.env.JWT_SECRET
+  },
+  neutrinoapi: {
+    userId: process.env.NEUTINOAPI_USER,
+    apiKey: process.env.NEUTINOAPI_API_KEY,
   }
 })

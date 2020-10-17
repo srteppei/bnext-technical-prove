@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { DatabaseConfigService } from './service/databaseconfig.service';
 import { JwtConfigService } from './service/jwt-config.service';
+import { NeutrinoApiConfigService } from './service/neutrino-api-config.service';
 import configuration from './configuration';
 import * as Joi from '@hapi/joi';
 
@@ -25,14 +26,19 @@ import * as Joi from '@hapi/joi';
         }),
         jwt: Joi.object({
           secret: Joi.string(),
+        }),
+        neutrinoapi: Joi.object({
+          userId: Joi.string(),
+          apiKey: Joi.string(),
         })
       })
     })
   ],
-  providers: [DatabaseConfigService, JwtConfigService],
+  providers: [DatabaseConfigService, JwtConfigService, NeutrinoApiConfigService],
   exports: [
     DatabaseConfigService,
     JwtConfigService,
+    NeutrinoApiConfigService,
   ],
 })
 export class ConfigModule {}

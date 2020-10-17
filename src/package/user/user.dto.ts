@@ -1,5 +1,6 @@
-import { IsAlphanumeric, IsNotEmpty, IsNumber, IsPhoneNumber, IsString, Length, MaxLength, MinLength } from "class-validator";
+import { IsAlphanumeric, IsNotEmpty, IsNumber, IsString, MaxLength, MinLength } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
+import { IsPhone } from '../../validator/is-phone-number.validator';
 
 export class UserDto {
   
@@ -34,5 +35,8 @@ export class UserDto {
   @ApiProperty({ example: '123456789', description: 'Phone number' })
   @IsNotEmpty()
   @IsNumber()
+  @IsPhone({
+    message: 'Not valid phone'
+  })
   phone: number;
 }

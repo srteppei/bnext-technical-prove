@@ -19,6 +19,8 @@ services:
       DATABASE_PASSWORD: $DATABASE_PASSWORD
       DATABASE_COLLECTION: $DATABASE_COLLECTION
       JWT_SECRET: $JWT_SECRET
+      NEUTINOAPI_USER: $NEUTINOAPI_USER
+      NEUTINOAPI_API_KEY: $NEUTINOAPI_API_KEY
   bnext-contact-database:
     container_name: bnext-contact-database 
     build: 
