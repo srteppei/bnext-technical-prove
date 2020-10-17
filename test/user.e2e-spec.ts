@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { UserDto } from '../src/package/user/user.dto';
+import { createUserDto, createUser } from './utils/user.util';
+
 
 describe('AppController (e2e)', () => {
-  const uri = "/user";
+  
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -21,7 +21,7 @@ describe('AppController (e2e)', () => {
   it('Create user', () => {
     const nickname = 'Jack Sparrow';
     const user = createUserDto(nickname,'Ron1234');
-    return createUser(user)
+    return createUser(user, app)
       .expect(201)
       .expect( response => {
         expect(response.body.nickname).toBe(nickname);
@@ -31,13 +31,13 @@ describe('AppController (e2e)', () => {
 
   it('Not duplicate nickname', async () => {
     const user = createUserDto('SpongeBob','Cangreburger');
-    await createUser(user).expect(201);
-    return createUser(user).expect(409);
+    await createUser(user, app).expect(201);
+    return createUser(user,app).expect(409);
   });
 
   it('Not empty password', () => {
     const userDto = createUserDto('Casper', '');
-    return createUser(userDto)
+    return createUser(userDto, app)
       .expect(400)
       .expect( response => {
         expect(response.body.message).toEqual([
@@ -50,7 +50,7 @@ describe('AppController (e2e)', () => {
 
   it('Nickname length can not be greater than 20' , () => {
     const userDto = createUserDto('123456789012345678901','1234567');
-    return createUser(userDto)
+    return createUser(userDto, app)
       .expect(400)
       .expect( response => 
         expect(response.body.message).toEqual(['nickname must be shorter than or equal to 20 characters'])
@@ -59,7 +59,7 @@ describe('AppController (e2e)', () => {
 
   it('Nickname length can not be lower than 6' , () => {
     const userDto = createUserDto('12345','1234567');
-    return createUser(userDto)
+    return createUser(userDto, app)
       .expect(400)
       .expect( response => 
         expect(response.body.message).toEqual(['nickname must be longer than or equal to 6 characters'])
@@ -68,7 +68,7 @@ describe('AppController (e2e)', () => {
 
   it('Nickname can not be empty', () => {
     const userDto = createUserDto('','1234567');
-    return createUser(userDto)
+    return createUser(userDto, app)
       .expect(400)
       .expect( response => 
         expect(response.body.message).toEqual([
@@ -78,16 +78,4 @@ describe('AppController (e2e)', () => {
       );
   });
 
-  function  createUserDto(nickname: string, password: string) {
-    const user = new UserDto();
-    user.nickname = nickname;
-    user.password = password;
-    return user;
-  }
-  
-  function createUser(user: UserDto) {
-    return request(app.getHttpServer())
-    .post(uri)
-    .send(user);
-  }
 });
