@@ -35,6 +35,18 @@ describe('AppController (e2e)', () => {
     return createUser(user).expect(409);
   });
 
+  it('Not empty password', () => {
+    const userDto = createUserDto('Casper', '');
+    return createUser(userDto)
+      .expect(400)
+      .expect( response => {
+        expect(response.body.message).toEqual([
+          'password must contain only letters and numbers',
+          'password should not be empty'
+        ])
+      });
+  });
+
   function  createUserDto(nickname: string, password: string) {
     const user = new UserDto();
     user.nickname = nickname;
