@@ -42,9 +42,40 @@ describe('AppController (e2e)', () => {
       .expect( response => {
         expect(response.body.message).toEqual([
           'password must contain only letters and numbers',
-          'password should not be empty'
+          'password should not be empty',
+          'password must be longer than or equal to 7 characters'
         ])
       });
+  });
+
+  it('Nickname length can not be greater than 20' , () => {
+    const userDto = createUserDto('123456789012345678901','1234567');
+    return createUser(userDto)
+      .expect(400)
+      .expect( response => 
+        expect(response.body.message).toEqual(['nickname must be shorter than or equal to 20 characters'])
+      );
+  });
+
+  it('Nickname length can not be lower than 6' , () => {
+    const userDto = createUserDto('12345','1234567');
+    return createUser(userDto)
+      .expect(400)
+      .expect( response => 
+        expect(response.body.message).toEqual(['nickname must be longer than or equal to 6 characters'])
+      );
+  });
+
+  it('Nickname can not be empty', () => {
+    const userDto = createUserDto('','1234567');
+    return createUser(userDto)
+      .expect(400)
+      .expect( response => 
+        expect(response.body.message).toEqual([
+          'nickname should not be empty',
+          'nickname must be longer than or equal to 6 characters'
+        ])
+      );
   });
 
   function  createUserDto(nickname: string, password: string) {
