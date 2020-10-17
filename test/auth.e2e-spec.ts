@@ -27,8 +27,7 @@ describe('AppController (e2e)', () => {
       .send(user)
       .expect(201)
       .expect( response => {
-        expect(response.body.nickname).toBe(nickname);
-        expect(response.body.id).not.toBe(null);
+        expect(response.body.access_token).not.toBe(null);
       })
   });
 

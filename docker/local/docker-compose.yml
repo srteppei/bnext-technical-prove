@@ -18,6 +18,7 @@ services:
       DATABASE_USER: $DATABASE_USER
       DATABASE_PASSWORD: $DATABASE_PASSWORD
       DATABASE_COLLECTION: $DATABASE_COLLECTION
+      JWT_SECRET: $JWT_SECRET
   bnext-contact-database:
     container_name: bnext-contact-database 
     build: 

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { EncryptionService } from '../encryption/encryption.service';
 import { UserService } from '../user/user.service';
 
@@ -7,7 +8,8 @@ export class AuthService {
 
   constructor(
     private userService: UserService,
-    private encryptionService: EncryptionService
+    private encryptionService: EncryptionService,
+    private jwtService: JwtService,
   ) {}
 
   async validateUser(nickname: string, password: string) {
@@ -21,6 +23,12 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async login(user: any) {
+    return {
+      access_token: this.jwtService.sign(user)
+    }
   }
 
 }

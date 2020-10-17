@@ -6,5 +6,8 @@ export default () => ({
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     collection: process.env.DATABASE_COLLECTION
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET
   }
 })

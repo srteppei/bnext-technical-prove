@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { DatabaseConfigService } from './service/databaseconfig.service';
+import { JwtConfigService } from './service/jwt-config.service';
 import configuration from './configuration';
 import * as Joi from '@hapi/joi';
 
@@ -21,13 +22,17 @@ import * as Joi from '@hapi/joi';
           collection: Joi.string(),
           host: Joi.string(),
           port: Joi.string().default(3306),
+        }),
+        jwt: Joi.object({
+          secret: Joi.string(),
         })
       })
     })
   ],
-  providers: [DatabaseConfigService],
+  providers: [DatabaseConfigService, JwtConfigService],
   exports: [
-    DatabaseConfigService
+    DatabaseConfigService,
+    JwtConfigService,
   ],
 })
 export class ConfigModule {}
