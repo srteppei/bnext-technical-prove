@@ -1,7 +1,8 @@
-import { IsAlphanumeric, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
+import { IsAlphanumeric, IsNotEmpty, IsNumber, IsPhoneNumber, IsString, Length, MaxLength, MinLength } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {
+  
   @ApiProperty({ example: 'TheJoker', description: 'Nickname' })
   @MinLength(6)
   @MaxLength(20)
@@ -16,4 +17,22 @@ export class UserDto {
   @IsString()
   @IsAlphanumeric()
   password: string;
+  
+
+  @ApiProperty({ example: 'Jack', description: 'Name' })
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(100)
+  name: string;
+  
+  @ApiProperty({ example: 'Napier', description: 'Surname' })
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(100)
+  lastName: string;
+
+  @ApiProperty({ example: '123456789', description: 'Phone number' })
+  @IsNotEmpty()
+  @IsNumber()
+  phone: number;
 }

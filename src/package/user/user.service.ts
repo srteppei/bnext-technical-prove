@@ -20,6 +20,9 @@ export class UserService {
       const userEntity = new UserEntity();
       userEntity.nickname = userDto.nickname;
       userEntity.password = this.encryptionService.hash(userDto.password);
+      userEntity.name = userDto.name;
+      userEntity.lastName = userDto.lastName;
+      userEntity.phone = userDto.phone;
       return this.userRepository.save(userEntity);
     } else {
       throw new HttpException('Nickname already exist', HttpStatus.CONFLICT);

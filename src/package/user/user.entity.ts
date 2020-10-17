@@ -17,4 +17,16 @@ export class UserEntity {
   @Exclude()
   password: string;
 
+  @ApiProperty({ example: 'Jack', description: 'Name' })
+  @Column({nullable: false})
+  name: string;
+  
+  @ApiProperty({ example: 'Napier', description: 'Surname' })
+  @Column({nullable: false, name: 'last_name'})
+  lastName: string;
+
+  @ApiProperty({ example: '123456789', description: 'Phone number' })
+  @Column({nullable: false})
+  phone: number;
+
 }

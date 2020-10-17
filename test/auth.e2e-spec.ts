@@ -20,7 +20,7 @@ describe('AppController (e2e)', () => {
 
   it('Login', async () => {
     const nickname = 'UserLogin'
-    const user = createUserDto(nickname,'TestLogin1234');
+    const user = createUserDto(nickname,'TestLogin1234', 'user', 'login', 999999999);
     await createUser(user, app).expect(201);
     return login(user, app)
       .expect(201)
@@ -30,7 +30,7 @@ describe('AppController (e2e)', () => {
   });
 
   it('Unauthorized', async () => {
-    const user = createUserDto('noUser','noPassword');
+    const user = createUserDto('noUser','noPassword', 'no', 'user', 211111111);
     return login(user, app)
       .expect(401);
   });
