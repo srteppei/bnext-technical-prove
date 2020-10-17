@@ -6,3 +6,9 @@ services:
     command: npm run test:e2e
     volumes: 
       - ../../test:/opt/bnext/contact-book-api/test
+    depends_on: 
+      - bnext-contact-database
+    environment: 
+      DATABASE_HOST: bnext-contact-database-test  
+  bnext-contact-database:
+    container_name: bnext-contact-database-test     

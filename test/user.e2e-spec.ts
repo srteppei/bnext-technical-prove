@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
+  const uri = "/user";
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -12,13 +13,18 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('Create user', () => {
+    const nickname = 'Jack Sparrow';
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .post(uri)
+      .send({nickname, password: 'Ron1234'})
+      .expect(201)
+      .expect( response => {
+        expect(response.body.nickname).toBe(nickname);
+      });
   });
 });
