@@ -36,6 +36,7 @@ export class DatabaseConfigService {
       username: this.databaseUser,
       password: this.databasePassword,
       database: this.databaseCollection,
+      keepConnectionAlive: true,
       entities: [UserEntity],
     };
     return config;
