@@ -16,3 +16,9 @@ export function createUser(user: UserDto, app: INestApplication) {
   .post(uri)
   .send(user);
 }
+
+export function getUser(id: number, token: string, app: INestApplication) {
+  return request(app.getHttpServer())
+  .get(`${uri}/${id}`)
+  .set('Authorization', `Bearer ${token}`)
+}

@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
+import { login } from './utils/auth.util';
 import { AppModule } from '../src/app.module';
 import { createUser, createUserDto } from './utils/user.util';
 
 describe('AppController (e2e)', () => {
-  const uri = "/auth";
+  
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -22,9 +22,7 @@ describe('AppController (e2e)', () => {
     const nickname = 'UserLogin'
     const user = createUserDto(nickname,'TestLogin1234');
     await createUser(user, app).expect(201);
-    return request(app.getHttpServer())
-      .post(uri)
-      .send(user)
+    return login(user, app)
       .expect(201)
       .expect( response => {
         expect(response.body.access_token).not.toBe(null);
@@ -33,9 +31,7 @@ describe('AppController (e2e)', () => {
 
   it('Unauthorized', async () => {
     const user = createUserDto('noUser','noPassword');
-    return request(app.getHttpServer())
-      .post(uri)
-      .send(user)
+    return login(user, app)
       .expect(401);
   });
 });
