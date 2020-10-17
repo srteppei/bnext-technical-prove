@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Post, UseGuards, UseInterceptors, Request } from '@nestjs/common';
 import {
   ApiTags,
   ApiBearerAuth,
@@ -17,12 +17,12 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get('/:id')
+  @Get()
   @ApiBearerAuth()
   @ApiResponse({ status: 200, description: 'User info', type: UserEntity})
   @ApiResponse({ status: 401, description: 'Not authorized to display the information'})
-  getUserById(@Param('id') id: number) {
-    return this.userService.getUserById(id);
+  getUserById(@Request() request) {
+    return this.userService.getUserById(request.user.id);
   }
 
   @Post()
