@@ -15,6 +15,13 @@
 - Maria DB 10.5.3
 
 ## Launching project (docker)
+
+Before execute the command you should complete this fields in `/docker/local/env`
+```
+NEUTINOAPI_USER=<user_id>
+NEUTINOAPI_API_KEY=<api-key>
+```
+
 ```bash
 $ npm run docker:local:up
 ```
