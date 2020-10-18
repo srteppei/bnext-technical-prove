@@ -5,8 +5,8 @@ import {
   ApiResponse
 } from '@nestjs/swagger';
 import { LocalGuard } from './guard/local.guard';
-import { UserDto } from '../user/user.dto';
 import { Payload } from './payload';
+import { UserLoginDto } from './dto/user-login.dto';
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -18,7 +18,7 @@ export class AuthController {
   @Post()
   @ApiResponse({ status: 201, description: 'Token generated', type: Payload})
   @ApiResponse({ status: 401, description: 'Not authorized'})
-  async login(@Body() userDto: UserDto ,@Request() request) {
+  async login(@Body() userDto: UserLoginDto ,@Request() request) {
     return this.authService.login(request.user);
   }
 
