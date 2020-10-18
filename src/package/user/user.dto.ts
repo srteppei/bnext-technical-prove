@@ -35,8 +35,6 @@ export class UserDto {
   @ApiProperty({ example: '123456789', description: 'Phone number' })
   @IsNotEmpty()
   @IsNumber()
-  @IsPhone({
-    message: 'Not valid phone'
-  })
+  @IsPhone()
   phone: number;
 }

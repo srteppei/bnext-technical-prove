@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ContactBookEntity } from 'src/package/contact-book/entity/contact-book.entity';
 import { UserEntity } from '../../package/user/user.entity';
 
 @Injectable()
@@ -37,7 +38,7 @@ export class DatabaseConfigService {
       password: this.databasePassword,
       database: this.databaseCollection,
       keepConnectionAlive: true,
-      entities: [UserEntity],
+      entities: [UserEntity, ContactBookEntity],
     };
     return config;
   }

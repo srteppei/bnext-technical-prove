@@ -38,6 +38,10 @@ export class IsPhoneConstraint implements ValidatorConstraintInterface {
       return phone.toString().length === 9; // Due to 50 limit daily request
     }
   }
+
+  defaultMessage(args: ValidationArguments) {
+    return 'Not valid phone';
+  }
 }
 
 export function IsPhone(validationOptions?: ValidationOptions) {
