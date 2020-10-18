@@ -15,7 +15,7 @@ export class UserService {
   ) {}
 
   async createUser(userDto: UserDto) {
-    const user = await this.getUserByNickname(userDto.nickname);
+    const user = await this.getUserByNicknamePhone(userDto.nickname, userDto.phone);
     if ( user === null || user === undefined) {
       const userEntity = new UserEntity();
       userEntity.nickname = userDto.nickname;
@@ -34,7 +34,11 @@ export class UserService {
   }
 
   getUserByNickname(nickname: string) {
-    return this.userRepository.findOne({ where: {nickname} });
+    return this.userRepository.findOne({ where: {nickname}});
+  }
+
+  getUserByNicknamePhone(nickname: string, phone: number) {
+    return this.userRepository.findOne({ where: [{nickname}, {phone}]});
   }
 
 }

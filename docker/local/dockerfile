@@ -8,6 +8,7 @@ ENV DATABASE_USER root
 ENV DATABASE_PASSWORD root
 ENV DATABASE_COLLECTION bnext
 
+RUN chmod 777 ./docker/wait-for-it.sh
 RUN apt-get update
 RUN apt-get install -y build-essential
 RUN apt-get install -y python

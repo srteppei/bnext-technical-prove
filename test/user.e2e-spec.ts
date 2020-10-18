@@ -38,6 +38,13 @@ describe('User controller (e2e)', () => {
     return createUser(user,app).expect(409);
   });
 
+  it('Not duplicate phone', async () => {
+    const user = createUserDto('SpongeBob01','Cangreburger', 'Bob', 'Sponge', 681223329);
+    await createUser(user, app).expect(201);
+    const user2 = createUserDto('SpongeBob02','Cangreburger1', 'Bob', 'Sponge', 681223329);
+    return createUser(user2,app).expect(409);
+  });
+
   it('Not empty password', () => {
     const userDto = createUserDto('Casper', '', 'Casper', 'Ghost', 713113163);
     return createUser(userDto, app)
