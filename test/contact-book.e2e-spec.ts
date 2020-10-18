@@ -23,23 +23,6 @@ describe('Contact book (e2e)', () => {
     await app.init();
   });
 
-  it('Create contact book', async () => {
-    const nickname = 'hulk01';
-    const password = 'HulkIsAngry';
-    await createUser(createUserDto(nickname, password, 'Bruce', 'Banner', 673877220), app).expect(201);
-    const token = (await login(createUserLoginDto(nickname, password), app)).body.access_token;
-    const contactBookDto = new ContactBookDto();
-    contactBookDto.phone = 673877220
-    contactBookDto.contactName = 'Natasha Romanoff';
-    return createContactBook(token, contactBookDto)
-      .expect(201)
-      .expect( response => {
-        expect(response.body.contactName).toBe(contactBookDto.contactName);
-        expect(response.body.phone).toBe(contactBookDto.phone);
-        expect(response.body.id).not.toBe(null);
-      })
-  });
-
   it('Try to add a contact without token', async () => {
     const nickname = 'victim';
     const password = 'victim01';
@@ -66,12 +49,45 @@ describe('Contact book (e2e)', () => {
         expect(response.body.message).toEqual(['Not valid phone'])
       });
   });
+
+  it('Create contacts and get all contact', async () => {
+    const nickname = 'ironMan';
+    const password = 'Jarvis2009';
+    await createUser(createUserDto(nickname, password, 'Tony', 'Stark', 673877221), app).expect(201);
+    const token = (await login(createUserLoginDto(nickname, password), app)).body.access_token;
+    const natasha = new ContactBookDto();
+    natasha.phone = 673877220
+    natasha.contactName = 'Natasha Romanoff';
+    const natashaContact = (await createContactBook(token, natasha).expect(201)).body;
+    const cap = new ContactBookDto();
+    cap.phone = 673877220
+    cap.contactName = 'America captain';
+    const capContact = (await createContactBook(token, cap).expect(201)).body;
+    const hawkEye = new ContactBookDto();
+    hawkEye.phone = 673877220
+    hawkEye.contactName = 'HawkEye';
+    const hawkEyeContact = (await createContactBook(token, hawkEye).expect(201)).body;
+    return getAllContact(token)
+      .expect(200)
+      .expect( response => {
+        expect(response.body.length).toEqual(3);
+        expect(response.body).toContainEqual(natashaContact);
+        expect(response.body).toContainEqual(capContact);
+        expect(response.body).toContainEqual(hawkEyeContact);
+      })
+  });
   
   function createContactBook(token: string, contactBookDto: ContactBookDto) {
     return request(app.getHttpServer())  
       .post(uri)
       .set('Authorization', `Bearer ${token}`)
       .send(contactBookDto)
+  }
+
+  function getAllContact(token: string) {
+    return request(app.getHttpServer())  
+    .get(uri)
+    .set('Authorization', `Bearer ${token}`)
   }
 
 });

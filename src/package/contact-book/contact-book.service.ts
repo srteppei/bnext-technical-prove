@@ -24,4 +24,8 @@ export class ContactBookService {
     return this.contactBookRepository.save(contactBookEntity);
   }
 
+  getAllContact(userId: number) {
+    return this.contactBookRepository.find({ where: {user: userId} })
+  }
+
 }
