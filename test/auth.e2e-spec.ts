@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { login } from './utils/auth.util';
+import { createUserLoginDto, login } from './utils/auth.util';
 import { AppModule } from '../src/app.module';
 import { createUser, createUserDto } from './utils/user.util';
 import {useContainer} from "class-validator";
 
-describe('AppController (e2e)', () => {
+describe('Login Controller (e2e)', () => {
   
   let app: INestApplication;
 
@@ -22,9 +22,10 @@ describe('AppController (e2e)', () => {
 
   it('Login', async () => {
     const nickname = 'UserLogin'
-    const user = createUserDto(nickname,'TestLogin1234', 'user', 'login', 741663135);
+    const password = 'TestLogin1234'
+    const user = createUserDto(nickname, password, 'user', 'login', 741663135);
     await createUser(user, app).expect(201);
-    return login(user, app)
+    return login(createUserLoginDto(nickname, password), app)
       .expect(201)
       .expect( response => {
         expect(response.body.access_token).not.toBe(null);

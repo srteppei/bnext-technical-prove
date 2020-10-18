@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { ContactBookEntity } from "../contact-book/entity/contact-book.entity";
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -29,4 +30,6 @@ export class UserEntity {
   @Column({nullable: false})
   phone: number;
 
+  @OneToMany(() => ContactBookEntity, contactBook => contactBook.user, { lazy: true, cascade: ['insert', 'update', 'remove'] })
+  contactBook: ContactBookEntity[];
 }
