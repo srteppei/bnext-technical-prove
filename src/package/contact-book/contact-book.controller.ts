@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Request, Body, UseInterceptors, ClassSerializerInterceptor, Logger, Get } from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Body, UseInterceptors, ClassSerializerInterceptor, Logger, Get, Param } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { request } from 'express';
 import { JwtAuthGuard } from '../auth/guard/jwt.guard';
@@ -27,10 +27,16 @@ export class ContactBookController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiResponse({ status: 201, description: 'Create contact book'})
+  @ApiResponse({ status: 200, description: 'Get all contacts'})
   @ApiResponse({ status: 401, description: 'Not authorize'})
   getContactBook(@Request() request) {
     return this.contactBookService.getAllContact(request.user.id);
+  }
+
+  @Get('/shared/:userId1/:userId2')
+  @ApiResponse({ status: 200, description: 'Get all shared contacts'})
+  getSharedContacts(@Param('userId1') userId1: number, @Param('userId2') userId2: number) {
+    return this.contactBookService.getSharedContacts(userId1, userId2);
   }
 
 }

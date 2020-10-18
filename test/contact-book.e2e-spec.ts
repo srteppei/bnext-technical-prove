@@ -76,6 +76,42 @@ describe('Contact book (e2e)', () => {
         expect(response.body).toContainEqual(hawkEyeContact);
       })
   });
+
+  it('Get shared contacts', async () => {
+    const nickname1 = 'user01';
+    const password1 = 'user001';
+    const user1 = (await createUser(createUserDto(nickname1, password1, 'Tony', 'Stark', 673877222), app).expect(201)).body;
+    const tokenUser1 = (await login(createUserLoginDto(nickname1, password1), app)).body.access_token;
+    const nickname2 = 'user02';
+    const password2 = 'user002';
+    const user2 = (await createUser(createUserDto(nickname2, password2, 'Tony', 'Stark', 673877223), app).expect(201)).body;
+    const tokenUser2 = (await login(createUserLoginDto(nickname2, password2), app)).body.access_token;
+    // Contacts
+    const natasha = new ContactBookDto();
+    natasha.phone = 673877221
+    natasha.contactName = 'Natasha Romanoff';
+    const cap = new ContactBookDto();
+    cap.phone = 673877220
+    cap.contactName = 'America captain';
+    const hawkEye = new ContactBookDto();
+    hawkEye.phone = 673877222
+    hawkEye.contactName = 'HawkEye';
+    //  Create contacts
+    const capContactUser1 = (await createContactBook(tokenUser1, cap).expect(201)).body;
+    const natashaContactUser1 = (await createContactBook(tokenUser1, natasha).expect(201)).body;
+    (await createContactBook(tokenUser1, hawkEye).expect(201)).body;
+    const capContactUser2 = (await createContactBook(tokenUser2, cap).expect(201)).body;
+    const natashaContactUSer2 = (await createContactBook(tokenUser2, natasha).expect(201)).body;
+    return getSharedContacts(user1.id, user2.id)
+      .expect(200)
+      .expect( response => {
+        expect(response.body.length).toEqual(4);
+        expect(response.body).toContainEqual(capContactUser1);
+        expect(response.body).toContainEqual(natashaContactUser1);
+        expect(response.body).toContainEqual(capContactUser2);
+        expect(response.body).toContainEqual(natashaContactUSer2);
+      })
+  });
   
   function createContactBook(token: string, contactBookDto: ContactBookDto) {
     return request(app.getHttpServer())  
@@ -88,6 +124,11 @@ describe('Contact book (e2e)', () => {
     return request(app.getHttpServer())  
     .get(uri)
     .set('Authorization', `Bearer ${token}`)
+  }
+
+  function getSharedContacts(userId1: number, userId2: number) {
+    return request(app.getHttpServer())  
+    .get(`${uri}/shared/${userId1}/${userId2}`);
   }
 
 });

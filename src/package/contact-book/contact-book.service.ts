@@ -28,4 +28,20 @@ export class ContactBookService {
     return this.contactBookRepository.find({ where: {user: userId} })
   }
 
+  getSharedContacts(userId1: number, userId2: number) {
+    return this.contactBookRepository.createQueryBuilder()
+      .where(qb => `phone IN(${
+        qb.subQuery()
+          .select('phone')
+          .from(ContactBookEntity, 'contact_book')
+          .where('contact_book.user.id = :id1 OR contact_book.user.id = :id2', { id1: userId1, id2: userId2})
+          .groupBy('phone')
+          .having('COUNT(phone) > 1')
+          .getQuery()
+        }) AND user_id = :id1 OR user_id = :id2`, { id1: userId1, id2: userId2}
+      )
+      .getRawAndEntities()
+      .then( result => result.entities );
+  } 
+
 }
