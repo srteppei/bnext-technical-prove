@@ -1,0 +1,17 @@
+FROM node:12.18.3
+WORKDIR /opt/bnext/contact-book-api
+COPY . .
+
+ENV DATABASE_HOST localhost
+ENV DATABASE_PORT 3306
+ENV DATABASE_USER root
+ENV DATABASE_PASSWORD root
+ENV DATABASE_COLLECTION bnext
+
+RUN chmod 777 ./docker/wait-for-it.sh
+RUN apt-get update
+RUN apt-get install -y build-essential
+RUN apt-get install -y python
+RUN npm install
+RUN npm i -g @nestjs/cli@7.5.1
+CMD npm run start:debug

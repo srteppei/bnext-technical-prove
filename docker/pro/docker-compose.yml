@@ -1,0 +1,10 @@
+version: "3.7"
+
+services: 
+  bnext-contact-book-api:
+    container_name: bnext-contact-book-api
+    build: 
+      context: ../..
+      dockerfile: docker/pro/dockerfile
+    ports: 
+      - 3000:3000    
