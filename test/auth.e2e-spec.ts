@@ -4,7 +4,6 @@ import { createUserLoginDto, login } from './utils/auth.util';
 import { AppModule } from '../src/app.module';
 import { createUser, createUserDto } from './utils/user.util';
 import {useContainer} from "class-validator";
-import { response } from 'express';
 
 describe('Login Controller (e2e)', () => {
   

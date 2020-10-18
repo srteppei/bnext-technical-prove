@@ -112,6 +112,23 @@ describe('Contact book (e2e)', () => {
         expect(response.body).toContainEqual(natashaContactUSer2);
       })
   });
+
+  it('Update contact', async () => {
+    const nickname = 'victim';
+    const password = 'victim01';
+    await createUser(createUserDto(nickname, password, 'victim', 'victim', 665541790), app);
+    const token = (await login(createUserLoginDto(nickname, password), app)).body.access_token;;
+    const contactBookDto = new ContactBookDto();
+    contactBookDto.phone = 673877220;
+    contactBookDto.contactName = 'Natasha Romanoff';
+    const contact = (await createContactBook(token, contactBookDto)).body;
+    contactBookDto.contactName = 'Peter Parker';
+    return updateContactBook(token, contact.id, contactBookDto)
+      .expect(200)
+      .expect( response => {
+        expect(response.body.contactName).toBe('Peter Parker');
+      });
+  });
   
   function createContactBook(token: string, contactBookDto: ContactBookDto) {
     return request(app.getHttpServer())  
@@ -129,6 +146,13 @@ describe('Contact book (e2e)', () => {
   function getSharedContacts(userId1: number, userId2: number) {
     return request(app.getHttpServer())  
     .get(`${uri}/shared/${userId1}/${userId2}`);
+  }
+
+  function updateContactBook(token: string, contactId: number ,contactBookDto: ContactBookDto) {
+    return request(app.getHttpServer())  
+      .put(`${uri}/${contactId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(contactBookDto);
   }
 
 });

@@ -1,4 +1,4 @@
-import { createConnection, getConnection } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 afterAll(async () => {
   const connection = await getConnection();
