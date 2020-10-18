@@ -26,6 +26,10 @@ NEUTINOAPI_API_KEY=<api-key>
 $ npm run docker:local:up
 ```
 
+### Debug project
+
+With VSCode you can debug de project launched with docker just press `F5` after launch the container
+
 ## Launching test (docker)
 ```bash
 $ npm run docker:test
