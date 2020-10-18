@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
 import { createUserDto, createUser, getUser } from './utils/user.util';
-import { login } from './utils/auth.util';
+import { createUserLogin, login } from './utils/auth.util';
 import {useContainer} from "class-validator";
 
 describe('AppController (e2e)', () => {
@@ -81,9 +81,11 @@ describe('AppController (e2e)', () => {
   });
 
   it('Get user info', async () => {
-    const userDto = createUserDto('UserInfo', 'UserInfo', 'user', 'info', 621501651);
+    const nickname = 'UserInfo';
+    const password = 'UserInfo';
+    const userDto = createUserDto(nickname, password, 'user', 'info', 621501651);
     const id = (await createUser(userDto, app)).body.id;
-    const token = (await login(userDto, app)).body.access_token;
+    const token = (await login(createUserLogin(nickname, password), app)).body.access_token;
     return getUser(id, token, app).expect(200);
   });
 

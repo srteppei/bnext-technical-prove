@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
-import { IsPhone } from "src/validator/is-phone-number.validator";
+import { IsPhone } from "../../../validator/is-phone-number.validator";
 
 export class ContactBookDto {
   

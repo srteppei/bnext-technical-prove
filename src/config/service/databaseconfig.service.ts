@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ContactBookEntity } from 'src/package/contact-book/entity/contact-book.entity';
+import { ContactBookEntity } from '../../package/contact-book/entity/contact-book.entity';
 import { UserEntity } from '../../package/user/user.entity';
 
 @Injectable()
