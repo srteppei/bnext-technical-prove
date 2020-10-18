@@ -26,7 +26,7 @@ export class UserEntity {
   @Column({nullable: false, name: 'last_name'})
   lastName: string;
 
-  @ApiProperty({ example: '123456789', description: 'Phone number' })
+  @ApiProperty({ example: 123456789, description: 'Phone number' })
   @Column({nullable: false})
   phone: number;
 

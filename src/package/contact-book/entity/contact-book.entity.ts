@@ -19,7 +19,7 @@ export class ContactBookEntity {
   @Column({nullable: false, name: 'contact_name'})
   contactName: string;
 
-  @ApiProperty({ example: '123456789', description: 'Phone number' })
+  @ApiProperty({ example: 123456789, description: 'Phone number' })
   @Column({nullable: false})
   phone: number;
 }

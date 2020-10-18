@@ -13,6 +13,6 @@ export class ContactBookDto {
   @IsNotEmpty()
   @IsNumber()
   @IsPhone()
-  @ApiProperty({ example: '123456789', description: 'Phone number' })
+  @ApiProperty({ example: 123456789, description: 'Phone number' })
   phone: number;
 }

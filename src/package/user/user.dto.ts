@@ -32,7 +32,7 @@ export class UserDto {
   @MaxLength(100)
   lastName: string;
 
-  @ApiProperty({ example: '123456789', description: 'Phone number' })
+  @ApiProperty({ example: 123456789, description: 'Phone number' })
   @IsNotEmpty()
   @IsNumber()
   @IsPhone()
