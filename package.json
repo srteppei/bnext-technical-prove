@@ -20,7 +20,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config test/jest-e2e.json --watchAll",
     "docker:pro": "docker-compose -f docker/pro/docker-compose.yml up",
-    "docker:local": "docker-compose -f docker/pro/docker-compose.yml -f docker/local/docker-compose.yml --env-file docker/local/.env  up",
+    "docker:local": "docker-compose -f docker/pro/docker-compose.yml -f docker/local/docker-compose.yml --env-file docker/local/.env",
+    "docker:local:up": "npm run docker:local -- up",
     "docker:test": "docker-compose -f docker/pro/docker-compose.yml -f docker/local/docker-compose.yml -f docker/test/docker-compose.yml --env-file docker/local/.env up"
   },
   "dependencies": {
