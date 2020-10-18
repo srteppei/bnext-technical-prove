@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { createUserLogin, login } from './utils/auth.util';
+import { createUserLoginDto, login } from './utils/auth.util';
 import { AppModule } from '../src/app.module';
 import { createUser, createUserDto } from './utils/user.util';
 import {useContainer} from "class-validator";
+import { response } from 'express';
 
-describe('AppController (e2e)', () => {
+describe('Login Controller (e2e)', () => {
   
   let app: INestApplication;
 
@@ -25,7 +26,7 @@ describe('AppController (e2e)', () => {
     const password = 'TestLogin1234'
     const user = createUserDto(nickname, password, 'user', 'login', 741663135);
     await createUser(user, app).expect(201);
-    return login(createUserLogin(nickname, password), app)
+    return login(createUserLoginDto(nickname, password), app)
       .expect(201)
       .expect( response => {
         expect(response.body.access_token).not.toBe(null);

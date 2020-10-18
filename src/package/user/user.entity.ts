@@ -30,6 +30,6 @@ export class UserEntity {
   @Column({nullable: false})
   phone: number;
 
-  @OneToMany(() => ContactBookEntity, contactBook => contactBook.user, { lazy: true })
+  @OneToMany(() => ContactBookEntity, contactBook => contactBook.user, { lazy: true, cascade: ['insert', 'update', 'remove'] })
   contactBook: ContactBookEntity[];
 }

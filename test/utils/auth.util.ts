@@ -10,7 +10,7 @@ export function login(user: UserLoginDto, app: INestApplication) {
   .send(user);
 }
 
-export function createUserLogin(nickname: string, password: string) {
+export function createUserLoginDto(nickname: string, password: string) {
   const userLogin = new UserLoginDto();
   userLogin.password = password;
   userLogin.nickname = nickname;

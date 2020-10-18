@@ -34,7 +34,7 @@ export class IsPhoneConstraint implements ValidatorConstraintInterface {
         return phone.toString().length === 9; // Due to 50 limit daily request
       }
     } catch (error) {
-      Logger.error(error);
+      Logger.error(`Neutrino error (verify credential or daily limit) : ${error.message}`);
       return phone.toString().length === 9; // Due to 50 limit daily request
     }
   }
